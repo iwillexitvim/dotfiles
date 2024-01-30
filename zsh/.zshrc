@@ -108,3 +108,11 @@ alias ls='ls --color=auto'
 alias la='ls -a'
 alias ll='ls -l'
 alias lla='ls -la'
+alias cal='cal -3'
+alias calendar='cal'
+
+# nvm configuration
+[ -z "$NVM_DIR" ] && export NVM_DIR="$HOME/.nvm"
+source /usr/share/nvm/nvm.sh
+source /usr/share/nvm/bash_completion
+source /usr/share/nvm/install-nvm-exec
