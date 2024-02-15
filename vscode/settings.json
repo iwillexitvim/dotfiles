@@ -1,0 +1,80 @@
+{
+    "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
+    "security.workspace.trust.untrustedFiles": "open",
+    "workbench.iconTheme": "a-file-icon-vscode",
+    "workbench.colorCustomizations": {
+        "editorBracketHighlight.foreground1": "#F2B705",
+        "editorBracketHighlight.foreground2": "#B865AA",
+        "editorBracketHighlight.foreground3": "#15A9FA",
+    },
+    "editor.fontLigatures": true,
+    "editor.minimap.enabled": false,
+    "editor.fontSize": 12,
+    "editor.formatOnSaveMode": "file", // required to format on save
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": false, // required 
+    "editor.formatOnType": false, // required
+    // "editor.bracketPairColorization.enabled": true,
+    // "editor.guides.bracketPairs": true,
+    "editor.guides.bracketPairsHorizontal": true,
+    // "editor.guides.highlightActiveBracketPair": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll": "explicit"
+    },
+    "editor.lineNumbers": "relative",
+    "eslint.validate": ["javascript"],
+    "eslint.workingDirectories": [{ "mode": "auto" }],
+    "workbench.colorTheme": "Atom One Dark",
+    "editor.tabSize": 2,
+    "vs-code-prettier-eslint.prettierLast": "false",
+    "[sql]": {
+        "editor.defaultFormatter": "adpyke.vscode-sql-formatter"
+    },
+    "githubPullRequests.pullBranch": "never",
+    "window.zoomLevel": 1,
+    "gitlens.gitCommands.skipConfirmations": [
+        "fetch:command",
+        "switch:command"
+        ], // set as "true" to run 'prettier' last not first
+    "vim.leader": "<Space>",
+    "vim.highlightedyank.enable": true,
+    "vim.normalModeKeyBindingsNonRecursive": [
+        // Navigation
+            
+        // switch buffers
+        { "before": ["<tab>"], "commands": [":bnext"] },
+        // splits
+        { "before": ["leader", "v"], "commands": [":vsplit"] },
+        { "before": ["leader", "s"], "commands": [":split"] },
+
+        // panes
+        { "before": ["leader", "h"], "commands": ["workbench.action.focusLeftGroup"] },
+        { "before": ["leader", "j"], "commands": ["workbench.action.focusBelowGroup"] },
+        { "before": ["leader", "k"], "commands": ["workbench.action.focusAboveGroup"] },
+        { "before": ["leader", "l"], "commands": ["workbench.action.focusRightGroup"] },
+        
+        // nice to have
+        { "before": ["leader", "w"], "commands": [":w!"] },
+        { "before": ["leader", "q"], "commands": [":q!"] },
+        { "before": ["leader", "x"], "commands": [":x!"] }, 
+        
+        { "before": ["<leader>", "c", "a"], "commands": ["editor.action.quickFix"] },
+        { "before": ["leader", "f"], "commands": ["workbench.action.quickOpen"] },
+        { "before": ["leader", "p"], "commands": ["editor.action.formatDocument"] },
+        { "before": ["g", "h"], "commands": ["editor.action.showDefinitionPreviewHover"] },
+        { "before": ["g", "r"], "commands": ["editor.action.goToReferences"] }, 
+        { "before": ["g", "d"], "commands": ["editor.action.goToDeclaration"] }, 
+    ],
+    "vim.visualModeKeyBindings": [
+        // Stay in visual mode while indenting
+        { "before": ["<"], "commands": ["editor.action.outdentLines"] },
+        { "before": [">"], "commands": ["editor.action.indentLines"] },
+        // Move selected lines while staying in visual mode
+        { "before": ["J"], "commands": ["editor.action.moveLinesDownAction"] },
+        { "before": ["K"], "commands": ["editor.action.moveLinesUpAction"] },
+        // toggle comment selection
+        { "before": ["leader", "c"], "commands": ["editor.action.commentLine"] }
+      ],
+    "breadcrumbs.enabled": false,
+    "editor.renderWhitespace": "all"
+}
