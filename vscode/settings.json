@@ -43,6 +43,7 @@
             
         // switch buffers
         { "before": ["<tab>"], "commands": [":bnext"] },
+        { "before": ["<S-tab>"], "commands": [":bprevious"] },
         // splits
         { "before": ["leader", "v"], "commands": [":vsplit"] },
         { "before": ["leader", "s"], "commands": [":split"] },
@@ -59,8 +60,8 @@
         { "before": ["leader", "x"], "commands": [":x!"] }, 
         
         { "before": ["<leader>", "c", "a"], "commands": ["editor.action.quickFix"] },
-        { "before": ["leader", "f"], "commands": ["workbench.action.quickOpen"] },
-        { "before": ["leader", "p"], "commands": ["editor.action.formatDocument"] },
+        { "before": ["leader", "p"], "commands": ["workbench.action.quickOpen"] },
+        { "before": ["leader", "f", "m"], "commands": ["workbench.action.formatDocument"] },
         { "before": ["g", "h"], "commands": ["editor.action.showDefinitionPreviewHover"] },
         { "before": ["g", "r"], "commands": ["editor.action.goToReferences"] }, 
         { "before": ["g", "d"], "commands": ["editor.action.goToDeclaration"] }, 
