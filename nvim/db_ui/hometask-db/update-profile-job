@@ -1,0 +1,4 @@
+select * from Profiles;
+select * from Jobs;
+-- update Profiles set balance = 950 where id = 1;
+-- update Jobs set paid = null and paymentDate = null where id =1;

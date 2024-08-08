@@ -1,0 +1,1 @@
+update Profiles set balance = 1000 where id = 2;

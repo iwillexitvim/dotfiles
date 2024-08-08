@@ -1,0 +1,1 @@
+[{"url": "sqlite:/Users/le4o/Documents/GitHub/aprove-me/server/dev.db", "name": "bank-me-db"}, {"url": "sqlite3:database.sqlite3", "name": "hometask-db"}]

@@ -197,6 +197,10 @@ vim.keymap.set('n', '<C-t>', '<cmd>ToggleTerm size=120 direction=vertical<CR>', 
 vim.keymap.set('n', '<C-S-t>', '<cmd>ToggleTerm size=120 direction=horizontal<CR>', { desc = 'Toggle terminal' })
 vim.keymap.set('t', '<C-t>', '<cmd>ToggleTerm<CR>', { desc = 'Toggle terminal' })
 
+-- Quickfix keymaps
+vim.keymap.set('n', '[q', '<cmd>cprevious<CR>', { desc = 'Go to previou in [Q]uickfix list' })
+vim.keymap.set('n', ']q', '<cmd>cnext<CR>', { desc = 'Go to next in [Q]uickfix list' })
+
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
@@ -257,24 +261,6 @@ require('lazy').setup({
   -- "gc" to comment visual regions/lines
   { 'numToStr/Comment.nvim', opts = {} },
 
-  -- Here is a more advanced example where we pass configuration
-  -- options to `gitsigns.nvim`. This is equivalent to the following lua:
-  --    require('gitsigns').setup({ ... })
-  --
-  -- See `:help gitsigns` to understand what the configuration keys do
-  { -- Adds git related signs to the gutter, as well as utilities for managing changes
-    'lewis6991/gitsigns.nvim',
-    opts = {
-      signs = {
-        add = { text = '+' },
-        change = { text = '~' },
-        delete = { text = '_' },
-        topdelete = { text = '‾' },
-        changedelete = { text = '~' },
-      },
-    },
-  },
-
   -- NOTE: Plugins can also be configured to run lua code when they are loaded.
   --
   -- This is often very useful to both group configuration, as well as handle
@@ -305,6 +291,8 @@ require('lazy').setup({
         ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
         ['<leader>e'] = { name = 'Tr[E]e', _ = 'which_key_ignore' },
         ['<leader>l'] = { name = '[L]azy', _ = 'which_key_ignore' },
+        ['<leader>m'] = { name = '[M]ini', _ = 'which_key_ignore' },
+        ['<leader>md'] = { name = '[M]ini [D]iff', _ = 'which_key_ignore' },
       }
     end,
   },
@@ -338,7 +326,7 @@ require('lazy').setup({
       { 'nvim-telescope/telescope-ui-select.nvim' },
 
       -- Useful for getting pretty icons, but requires a Nerd Font.
-      { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
+      -- { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
     },
     config = function()
       -- Telescope is a fuzzy finder that comes with a lot of different things that
@@ -411,6 +399,15 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
       vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
       vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
+      vim.keymap.set('n', '<leader>sc', '<cmd>Telescope colorscheme<CR>', { desc = '[S]earch [C]olorschemes' })
+
+      -- Live grep highlighted word
+      vim.api.nvim_set_keymap(
+        'v',
+        '<C-g>',
+        'y<ESC>:Telescope live_grep default_text=<c-r>0<CR>',
+        { noremap = true, silent = true, desc = '[S]earch by [Grep] in highlight' }
+      )
 
       -- Slightly advanced example of overriding default behavior and theme
       vim.keymap.set('n', '<leader>/', function()
@@ -573,22 +570,16 @@ require('lazy').setup({
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
-        -- clangd = {},
-        -- gopls = {},
-        -- pyright = {},
-        -- rust_analyzer = {},
-        -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
-        --
-        -- Some languages (like typescript) have entire language plugins that can be useful:
-        --    https://github.com/pmizio/typescript-tools.nvim
-        --
-        -- But for many setups, the LSP (`tsserver`) will work just fine
-        -- tsserver = {},
-        --
-
         elixirls = {},
         tsserver = {},
         rust_analyzer = {},
+        gopls = {
+          cmd = { 'gopls' },
+          filetypes = { 'go', 'gomod', 'gowork', 'gotmpl' },
+          settings = {
+            completeUnimported = true,
+          },
+        },
 
         lua_ls = {
           -- cmd = {...},
@@ -745,59 +736,6 @@ require('lazy').setup({
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
 
-  { -- Collection of various small independent plugins/modules
-    'echasnovski/mini.nvim',
-    config = function()
-      -- Better Around/Inside textobjects
-      --
-      -- Examples:
-      --  - va)  - [V]isually select [A]round [)]paren
-      --  - yinq - [Y]ank [I]nside [N]ext [']quote
-      --  - ci'  - [C]hange [I]nside [']quote
-      require('mini.ai').setup { n_lines = 500 }
-
-      -- Add/delete/replace surroundings (brackets, quotes, etc.)
-      --
-      -- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
-      -- - sd'   - [S]urround [D]elete [']quotes
-      -- - sr)'  - [S]urround [R]eplace [)] [']
-      require('mini.surround').setup()
-
-      -- Simple and easy statusline.
-      --  You could remove this setup call if you don't like it,
-      --  and try some other statusline plugin
-      local statusline = require 'mini.statusline'
-      -- set use_icons to true if you have a Nerd Font
-      statusline.setup {
-        use_icons = vim.g.have_nerd_font,
-        options = {
-          sections = {
-            lualine_x = { 'filetype' },
-          },
-          inactive_sections = {
-            lualine_x = { 'enconding', 'fileformat' },
-          },
-        },
-      }
-
-      -- You can configure sections in the statusline by overriding their
-      -- default behavior. For example, here we set the section for
-      -- cursor location to LINE:COLUMN
-      ---@diagnostic disable-next-line: duplicate-set-field
-      statusline.section_location = function()
-        return '%2l:%-2v'
-      end
-
-      ---@diagnostic disable-next-line: duplicate-set-field
-      statusline.section_filename = function()
-        return '%f%m%r'
-      end
-
-      -- ... and there is more!
-      --  Check out: https://github.com/echasnovski/mini.nvim
-    end,
-  },
-
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
@@ -823,6 +761,7 @@ require('lazy').setup({
           'html',
           'css',
           'yaml',
+          'sql',
         },
         -- Autoinstall languages that are not installed
         auto_install = true,
